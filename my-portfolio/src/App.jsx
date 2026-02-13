@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'motion/react'; // Add this import for the buttons
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { 
@@ -7,6 +8,7 @@ import {
   IdCard, Award, Phone, MapPin, Heart 
 } from 'lucide-react';
 import Aurora from './Aurora';
+import BlurText from './BlurText';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,6 +27,10 @@ function App() {
     { name: 'Experience', href: '#experience' },
   ];
 
+  const handleAnimationComplete = () => {
+    console.log('Animation completed!');
+  };
+
   return (
     <div className="antialiased min-h-screen text-slate-200 bg-[#020617] relative">
       
@@ -38,14 +44,13 @@ function App() {
         />
       </div>
 
-      {/* 2. NAVIGATION */}
+      {/* NAVIGATION */}
       <nav className="fixed w-full z-50 glass-panel top-0 border-b border-white/5">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <a href="#" className="text-2xl font-display font-bold tracking-tighter text-white">
             CJ<span className="text-blue-500">.</span>
           </a>
 
-          {/* Desktop Menu - Items-center fixed alignment */}
           <div className="hidden md:flex space-x-8 items-center text-sm font-medium">
             {navLinks.map((link) => (
               <a 
@@ -89,38 +94,69 @@ function App() {
         )}
       </nav>
 
-      {/* 3. CONTENT WRAPPER */}
+      {/* CONTENT WRAPPER */}
       <main className="relative z-10">
         {/* Hero Section */}
         <header id="about" className="min-h-screen flex items-center pt-20 relative overflow-hidden">
           <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
             
-            <div data-aos="fade-right" data-aos-duration="1000">
+            <div data-aos-duration="1000"> 
               <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-blue-400 uppercase bg-blue-500/10 rounded-full border border-blue-500/20">
                 Portfolio 2026
               </div>
-              <h1 className="text-5xl md:text-7xl font-display font-bold mb-4 leading-tight text-white">
-                Christian John <br />
-                <span className="text-gradient">Jimenez</span>
-              </h1>
-              <h2 className="text-xl md:text-2xl text-slate-400 font-light mb-6">
-                BS Information Technology Student
-              </h2>
-              <p className="text-lg text-slate-400 mb-8 leading-relaxed max-w-lg border-l-2 border-blue-500 pl-4">
-                To obtain a role that allows me to utilize my strengths and experience to their fullest potential, while also providing opportunities for growth and development.
-              </p>
+              
+              {/* 1. Name Animation */}
+              <BlurText
+                text="Christian John Jimenez"
+                delay={150}
+                animateBy="words"
+                direction="top"
+                onAnimationComplete={handleAnimationComplete}
+                className="text-5xl md:text-7xl font-display font-bold text-white mb-4 leading-tight"
+              />
 
-              <div className="flex flex-wrap gap-4">
+              {/* 2. Subheading Animation (Faster delay for smooth flow) */}
+              <BlurText
+                text="BS Information Technology Student"
+                delay={50}
+                animateBy="words"
+                direction="top"
+                className="text-xl md:text-2xl text-slate-400 font-light mb-6"
+              />
+
+              {/* 3. Paragraph Animation (Very fast delay for long text) */}
+              <BlurText
+                text="To obtain a role that allows me to utilize my strengths and experience to their fullest potential, while also providing opportunities for growth and development."
+                delay={30}
+                animateBy="words"
+                direction="top"
+                className="text-lg text-slate-400 mb-8 leading-relaxed max-w-lg border-l-2 border-blue-500 pl-4"
+              />
+
+              {/* 4. Buttons Animation (Fade Up) */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5, duration: 0.8 }}
+                className="flex flex-wrap gap-4"
+              >
                 <a href="#contact" className="px-8 py-3 bg-white text-slate-900 font-bold rounded hover:bg-slate-200 transition">
                   Get in Touch
                 </a>
                 <a href="#experience" className="px-8 py-3 glass-card text-white font-medium rounded hover:bg-white/10 transition">
                   View Work
                 </a>
-              </div>
+              </motion.div>
 
               <div className="mt-12 flex items-center gap-6 text-slate-400">
-                <a href="#" className="hover:text-blue-400 transition transform hover:scale-110"><Github className="w-6 h-6" /></a>
+                <a 
+                  href="https://github.com/Escaa007" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-blue-400 transition transform hover:scale-110"
+                >
+                  <Github className="w-6 h-6" />
+                </a>
                 <a href="#" className="hover:text-blue-400 transition transform hover:scale-110"><Linkedin className="w-6 h-6" /></a>
                 <a href="#" className="hover:text-blue-400 transition transform hover:scale-110"><Mail className="w-6 h-6" /></a>
               </div>
@@ -144,6 +180,7 @@ function App() {
           </div>
         </header>
 
+        {/* ... Rest of your sections (Skills, Experience, Education) ... */}
         {/* Skills Section */}
         <section id="skills" className="py-24 relative">
           <div className="container mx-auto px-6">
@@ -300,6 +337,9 @@ function App() {
                 <MapPin className="w-5 h-5" /> Quezon City, Philippines
               </span>
             </div>
+            <p className="text-slate-600 text-sm flex items-center justify-center gap-2">
+              &copy; 2026 Christian John G. Jimenez. <Heart className="w-4 h-4 text-red-500 fill-current" />
+            </p>
           </div>
         </footer>
       </main>
